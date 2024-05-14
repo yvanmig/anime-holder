@@ -1,1 +1,15 @@
 {{ hello }}
+
+<div id="click">CLICK</div>
+
+<div id="container">
+
+</div>
+
+
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('app') }}
+
+{% endblock %}
+{{ encore_entry_script_tags('app') }}
