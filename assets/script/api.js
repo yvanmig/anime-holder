@@ -13,26 +13,6 @@ document.addEventListener('DOMContentLoaded', function() {
         initRequest("trending/anime");
     });
 });
-// document.addEventListener('DOMContentLoaded', function() {
-//     const buttons = document.querySelectorAll('.toggleDescription');
-//
-//     buttons.forEach(button => {
-//         button.addEventListener('click', function() {
-//             // Hide currently visible description
-//             const descriptions = document.querySelectorAll('.animeDescription');
-//             descriptions.forEach(description => {
-//                 if (description.style.display === 'block') {
-//                     description.style.display = 'none';
-//                 }
-//             });
-//
-//             // Show the corresponding description
-//             console.log(this.nextElementSibling)
-//             const descriptionToShow = this.nextElementSibling;
-//             descriptionToShow.style.display = 'block';
-//         });
-//     });
-// });
 
 async function initRequest(endpoint) {
 
@@ -41,7 +21,7 @@ async function initRequest(endpoint) {
     const animes = await response.json();
     const minCeiled = Math.ceil(10);
     const maxFloored = Math.floor(0);
-    let random = Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled);
+    // let random = Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled);
 
     const htmlStrings = animes.data.map(anime => {
         const title = anime.attributes.titles.en || anime.attributes.titles.en_jp;
