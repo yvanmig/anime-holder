@@ -14,3 +14,7 @@
 #container div {
     width: 30%;
 }
+
+.animeDescription {
+    display: none;
+}
