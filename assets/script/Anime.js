@@ -6,21 +6,16 @@ const baseUrl = "https://kitsu.io/api/edge/"
 
 
 document.addEventListener('DOMContentLoaded', () => {
-
     init()
 })
 
 const init = () => {
     const container = document.getElementById('test')
-    const root = createRoot(container); // createRoot(container!) if you use TypeScript
-    root.render(<Test />);
+    const root = createRoot(container);
+    root.render(<Anime />);
 }
 
-
-
-
-
-export default function Test() {
+export default function Anime() {
 
     const [animes, setAnimes] = useState([]);
     useEffect(() => {
@@ -30,6 +25,14 @@ export default function Test() {
             await initRequest(endpoint);
         });
     }, []);
+    useEffect(() => {
+        const button = document.getElementById('trending');
+        button.addEventListener('click', async () => {
+            const endpoint = "trending/anime";
+            await initRequest(endpoint);
+        });
+    }, []);
+
     async function initRequest(endpoint) {
         const fullUrl = baseUrl.concat('', endpoint);
         const response = await fetch(fullUrl);
@@ -46,30 +49,11 @@ export default function Test() {
         setAnimes(formattedAnimes);
     }
 
-    useEffect(() => {
-        if (animes.length > 0) {
-            const container = document.getElementById('container');
-            // const htmlStrings = animes.map(anime => `
-            //     <div>
-            //         <p>${anime.title}</p>
-            //         <p>${anime.rating}</p>
-            //         <div class="toggleDescription">Description</div>
-            //         <p class="animeDescription">${anime.description}</p>
-            //         <img src="${anime.imageUrl}" class="animeImage"/>
-            //         <div class="toggleDescription"></div>
-            //     </div>`).join('');
 
-            // container.innerHTML = htmlStrings;
-            // document.querySelectorAll('.toggleDescription').forEach(button => {
-            //     button.addEventListener('click', toggleDescription);
-            // });
-        }
-    }, [animes]);
 
     return (
         <>
             <div className="ui buttons" id="startYearSelector">
-                {/*{animes[0].title}*/}
                 <AnimeCard animes={animes}/>
             </div>
         </>

@@ -1,10 +1,15 @@
 import React from 'react'
-import {createRoot} from "react-dom";
 
 const AnimeCard = ({animes}) => {
-    const title = "hey"
 
-    console.log('animes', animes)
+    //TODO Update to react logic
+    function toggleDescription(event) {
+        const descriptionElement = event.target.nextElementSibling;
+        // Hide all other descriptions
+        document.querySelectorAll('.animeDescription').forEach(desc => desc.style.display = 'none');
+        descriptionElement.style.display = 'block';
+    }
+
     return (
         <>
             <div id="container">
@@ -16,7 +21,6 @@ const AnimeCard = ({animes}) => {
                             <div className="toggleDescription">Description</div>
                             <p className="animeDescription">{anime.description}</p>
                             <img src={anime.imageUrl} className="animeImage"/>
-                            <div className="toggleDescription"></div>
                         </div>
                     )
                 })}
