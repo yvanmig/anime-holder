@@ -1,16 +1,20 @@
-{{ hello }}
+{% extends 'base.html.twig' %}
 
-<div id="click">CLICK</div>
+{% block body %}
 
-<div id="trending">Trending animes</div>
-<div id="container">
+    <div id="trending">Trending animes</div>
+    <div id="clickTest">click test</div>
+    <div id="test"></div>
+    <div id="form"></div>
 
-</div>
-
-
+{% endblock %}
 
 {% block stylesheets %}
     {{ encore_entry_link_tags('app') }}
 
 {% endblock %}
-{{ encore_entry_script_tags('app') }}
+{% block javascripts %}
+{{ parent() }}
+{{ encore_entry_script_tags('test') }}
+{% endblock %}
+

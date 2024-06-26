@@ -1,20 +1,20 @@
 const baseUrl = "https://kitsu.io/api/edge/"
 
-document.addEventListener('DOMContentLoaded', function() {
-    const button = document.getElementById('click');
-    button.addEventListener('click', function() {
-        initRequest("/anime");
-    });
-});
+// document.addEventListener('DOMContentLoaded', function() {
+//     const button = document.getElementById('click');
+//     button.addEventListener('click', function() {
+//         initRequest("/anime");
+//     });
+// });
 
-document.addEventListener('DOMContentLoaded', function() {
-    const button = document.getElementById('trending');
-    button.addEventListener('click', function() {
-        initRequest("trending/anime");
-    });
-});
+// document.addEventListener('DOMContentLoaded', function() {
+//     const button = document.getElementById('trending');
+//     button.addEventListener('click', function() {
+//         initRequest("trending/anime");
+//     });
+// });
 
-async function initRequest(endpoint) {
+async function initRequest2(endpoint) {
 
     const fullUrl = baseUrl.concat('', endpoint)
     const response = await fetch(fullUrl);
