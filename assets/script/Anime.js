@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {createRoot} from "react-dom/client";
-import AnimeCard from './animeCard';
+import AnimeCard from './AnimeCard';
 
 const baseUrl = "https://kitsu.io/api/edge/"
 
@@ -18,6 +18,8 @@ const init = () => {
 export default function Anime() {
 
     const [animes, setAnimes] = useState([]);
+    const [selectedIndex, setSelectedIndex] = useState(null);
+
     useEffect(() => {
         const button = document.getElementById('clickTest');
         button.addEventListener('click', async () => {
@@ -49,12 +51,14 @@ export default function Anime() {
         setAnimes(formattedAnimes);
     }
 
-
+    const handleDescriptionToggle = (index) => {
+        setSelectedIndex(index);
+    };
 
     return (
         <>
             <div className="ui buttons" id="startYearSelector">
-                <AnimeCard animes={animes}/>
+                <AnimeCard animes={animes} selectedIndex={selectedIndex} onDescriptionToggle={handleDescriptionToggle}/>
             </div>
         </>
     )

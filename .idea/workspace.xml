@@ -6,12 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="bb332353-bd5b-46c9-9886-9e14e0cd36a1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/script/animeCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/script/AnimeCard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/script/api.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/script/test.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/script/Anime.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/homepage.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/homepage.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/script/Anime.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/script/Anime.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/script/AnimeCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/script/AnimeCard.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,6 +27,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -102,6 +101,9 @@
       <path value="$PROJECT_DIR$/vendor/twig/intl-extra" />
     </include_path>
   </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 1
+}]]></component>
   <component name="ProjectId" id="2g86O9VfbEwfXC376z2HUGnpByA" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
@@ -112,10 +114,16 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
     "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "project.propVCSSupport.CommitDialog",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2023.3.6\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external"
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2023.3.6\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -138,6 +146,7 @@
       <workItem from="1715890767752" duration="6000" />
       <workItem from="1717084141876" duration="3000" />
       <workItem from="1717510378432" duration="2173000" />
+      <workItem from="1719492683827" duration="2039000" />
     </task>
     <servers />
   </component>

@@ -1,26 +1,25 @@
 import React from 'react'
 
-const AnimeCard = ({animes}) => {
-
-    //TODO Update to react logic
-    function toggleDescription(event) {
-        const descriptionElement = event.target.nextElementSibling;
-        // Hide all other descriptions
-        document.querySelectorAll('.animeDescription').forEach(desc => desc.style.display = 'none');
-        descriptionElement.style.display = 'block';
+const AnimeCard = ({animes, onDescriptionToggle, selectedIndex}) => {
+    function toggleDescription(index) {
+        //Hide description if it's already displayed
+        if(index === selectedIndex) {
+            onDescriptionToggle(null);
+        } else {
+            onDescriptionToggle(index);
+        }
     }
 
     return (
         <>
             <div id="container">
-                { animes.map((anime) => {
+                { animes.map((anime, index) => {
                     return (
-                        <div key={anime.title}>
+                        <div key={index}>
                             <p>{anime.title}</p>
                             <p>{anime.rating}</p>
-                            <div className="toggleDescription">Description</div>
-                            <p className="animeDescription">{anime.description}</p>
-                            <img src={anime.imageUrl} className="animeImage"/>
+                            <div className="toggleDescription" onClick={() => toggleDescription(index)}>Description</div>
+                            {selectedIndex === index && <p className="aznimeDescription">{anime.description}</p>}                            <img src={anime.imageUrl} className="animeImage"/>
                         </div>
                     )
                 })}
