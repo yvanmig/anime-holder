@@ -23,7 +23,7 @@ export default function Anime() {
     const [pagination, setPagination] = useState({first : null, previous : null, next : null, last : null})
 
     useEffect(() => {
-        const button = document.getElementById('clickTest');
+        const button = document.getElementById('topAnimes');
         button.addEventListener('click', async () => {
             const endpoint = "anime";
             const fullUrl = createUrl(endpoint)
@@ -31,7 +31,7 @@ export default function Anime() {
         });
     }, []);
     useEffect(() => {
-        const button = document.getElementById('trending');
+        const button = document.getElementById('trendingAnimes');
         button.addEventListener('click', async () => {
             const endpoint = "trending/anime";
             const fullUrl = createUrl(endpoint)
@@ -55,6 +55,7 @@ export default function Anime() {
 
         setCurrentPage(extractPageNumber(endpoint))
 
+        console.log(typeof currentPage)
         const formattedAnimes = data.data.map(anime => ({
             title: anime.attributes.titles.en || anime.attributes.titles.en_jp,
             rating: Math.round((anime.attributes.averageRating / 10) * 100) / 100,
@@ -81,7 +82,7 @@ export default function Anime() {
     function extractPageNumber(url) {
         const params = new URLSearchParams(new URL(url).search);
         const pageNumber = params.get('page[number]');
-        return pageNumber ? pageNumber : 1
+        return pageNumber ? parseInt(pageNumber) : 1
     }
     const handleDescriptionToggle = (index) => {
         setSelectedIndex(index);
@@ -89,26 +90,31 @@ export default function Anime() {
 
     return (
         <>
-
+            <div id="animeContainer">
+                <AnimeCard animes={animes} selectedIndex={selectedIndex} onDescriptionToggle={handleDescriptionToggle}/>
+            </div>
             {isDataFetched && (
                 <>
-                    {currentPage}
-                    {pagination.first && (
-                        <button onClick={() => initRequest(pagination.first)}>First</button>
-                    )}
-                    {pagination.previous && (
-                        <button onClick={() => initRequest(pagination.previous, "previous")}>Previous</button>
-                    )}
-                    {pagination.next && (
-                        <button onClick={() => initRequest(pagination.next, "next")}>Next</button>
-                    )}
-                    {pagination.last && (
-                        <button onClick={() => initRequest(pagination.last)}>Last</button>
-                    )}
+                    <div id="pagination">
+
+                        {pagination.first && (
+                            <button className={"paginationButton"} onClick={() => initRequest(pagination.first)}>First</button>
+                        )}
+                        {pagination.previous && (
+                            <button className={"paginationButton"} onClick={() => initRequest(pagination.previous, "previous")}> {currentPage - 1} </button>
+                        )}
+                        <button className={"paginationButton currentPageButton"}> {currentPage} </button>
+                        {pagination.next && (
+                            <button className={"paginationButton"} onClick={() => initRequest(pagination.next, "next")}> {currentPage + 1}</button>
+                        )}
+                        {pagination.last && (
+                            <button className={"paginationButton"} onClick={() => initRequest(pagination.last)}>Last</button>
+                        )}
+                    </div>
+
                 </>
             )}
 
-            <AnimeCard animes={animes} selectedIndex={selectedIndex} onDescriptionToggle={handleDescriptionToggle}/>
         </>
     )
 }

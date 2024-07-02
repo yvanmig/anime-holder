@@ -8,6 +8,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/script/Anime.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/script/Anime.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/script/AnimeCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/script/AnimeCard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/styles/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/homepage.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/homepage.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -148,7 +150,8 @@
       <workItem from="1717510378432" duration="2173000" />
       <workItem from="1719492683827" duration="4814000" />
       <workItem from="1719909853658" duration="114000" />
-      <workItem from="1719909976791" duration="5580000" />
+      <workItem from="1719909976791" duration="5632000" />
+      <workItem from="1719930636769" duration="1717000" />
     </task>
     <servers />
   </component>

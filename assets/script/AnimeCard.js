@@ -15,7 +15,7 @@ const AnimeCard = ({animes, onDescriptionToggle, selectedIndex}) => {
 
                 { animes.map((anime, index) => {
                     return (
-                        <div className="animeContainer" key={index}>
+                        <div className="animeCardContainer" key={index}>
                             <p>{anime.title}</p>
                             <p>{anime.rating}</p>
                             <p>{anime.startDate}</p>
