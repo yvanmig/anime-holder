@@ -49,13 +49,12 @@ export default function Anime() {
     }, []);
 
 
-    async function initRequest(endpoint, navigation = null) {
+    async function initRequest(endpoint) {
         const response = await fetch(endpoint);
         const data = await response.json();
 
         setCurrentPage(extractPageNumber(endpoint))
 
-        console.log(typeof currentPage)
         const formattedAnimes = data.data.map(anime => ({
             title: anime.attributes.titles.en || anime.attributes.titles.en_jp,
             rating: Math.round((anime.attributes.averageRating / 10) * 100) / 100,

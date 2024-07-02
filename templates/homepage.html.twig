@@ -2,6 +2,7 @@
 
 {% block body %}
 
+    <div id="searchBar"></div>
     <div id="trendingAnimes">Trending animes</div>
     <div id="topAnimes">Top animes</div>
     <div id="category">Anime par catégorie (Musical Band)</div>
@@ -16,6 +17,7 @@
 {% endblock %}
 {% block javascripts %}
 {{ parent() }}
-{{ encore_entry_script_tags('test') }}
+{{ encore_entry_script_tags('anime') }}
+{{ encore_entry_script_tags('searchBar') }}
 {% endblock %}
 
