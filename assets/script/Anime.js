@@ -10,34 +10,49 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 const init = () => {
-    const container = document.getElementById('test')
+    const container = document.getElementById('container')
     const root = createRoot(container);
     root.render(<Anime />);
 }
 
 export default function Anime() {
-
     const [animes, setAnimes] = useState([]);
     const [selectedIndex, setSelectedIndex] = useState(null);
+    const [pagination, setPagination] = useState({first : null, previous : null, next : null, last : null})
 
     useEffect(() => {
         const button = document.getElementById('clickTest');
         button.addEventListener('click', async () => {
-            const endpoint = "/anime";
-            await initRequest(endpoint);
+            const endpoint = "anime";
+            const fullUrl = createUrl(endpoint)
+            await initRequest(fullUrl);
         });
     }, []);
     useEffect(() => {
         const button = document.getElementById('trending');
         button.addEventListener('click', async () => {
             const endpoint = "trending/anime";
-            await initRequest(endpoint);
+            const fullUrl = createUrl(endpoint)
+            await initRequest(fullUrl);
         });
     }, []);
 
+    useEffect(() => {
+        const button = document.getElementById('category');
+        button.addEventListener('click', async () => {
+            const endpoint = "anime?filter[categories]=musical-band";
+            const fullUrl = createUrl(endpoint)
+            await initRequest(fullUrl);
+        });
+    }, []);
+
+
+    function createUrl(endpoint) {
+        return baseUrl.concat('', endpoint)
+    }
+
     async function initRequest(endpoint) {
-        const fullUrl = baseUrl.concat('', endpoint);
-        const response = await fetch(fullUrl);
+        const response = await fetch(endpoint);
         const data = await response.json();
 
         // Assuming the structure of the response matches what you expect
@@ -45,9 +60,17 @@ export default function Anime() {
             title: anime.attributes.titles.en || anime.attributes.titles.en_jp,
             rating: Math.round((anime.attributes.averageRating / 10) * 100) / 100,
             description: anime.attributes.description,
-            imageUrl: anime.attributes.posterImage.large
+            imageUrl: anime.attributes.posterImage.large,
+            startDate: anime.attributes.startDate
         }));
-
+        if(data.links) {
+            setPagination({
+                first: data.links.first,
+                previous: data.links.prev,
+                next: data.links.next,
+                last: data.links.last,
+            })
+        }
         setAnimes(formattedAnimes);
     }
 
@@ -57,9 +80,21 @@ export default function Anime() {
 
     return (
         <>
-            <div className="ui buttons" id="startYearSelector">
-                <AnimeCard animes={animes} selectedIndex={selectedIndex} onDescriptionToggle={handleDescriptionToggle}/>
-            </div>
+            <div>Pagination:</div>
+            {pagination.first && (
+                <button onClick={() => initRequest(pagination.first)}>First</button>
+            )}
+            {pagination.previous && (
+                <button onClick={() => initRequest(pagination.previous)}>Previous</button>
+            )}
+            {pagination.next && (
+                <button onClick={() => initRequest(pagination.next)}>Next</button>
+            )}
+            {pagination.last && (
+                <button onClick={() => initRequest(pagination.last)}>Last</button>
+            )}
+
+            <AnimeCard animes={animes} selectedIndex={selectedIndex} onDescriptionToggle={handleDescriptionToggle}/>
         </>
     )
 }

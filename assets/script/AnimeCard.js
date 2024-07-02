@@ -12,18 +12,20 @@ const AnimeCard = ({animes, onDescriptionToggle, selectedIndex}) => {
 
     return (
         <>
-            <div id="container">
+
                 { animes.map((anime, index) => {
                     return (
-                        <div key={index}>
+                        <div className="animeContainer" key={index}>
                             <p>{anime.title}</p>
                             <p>{anime.rating}</p>
+                            <p>{anime.startDate}</p>
                             <div className="toggleDescription" onClick={() => toggleDescription(index)}>Description</div>
                             {selectedIndex === index && <p className="aznimeDescription">{anime.description}</p>}                            <img src={anime.imageUrl} className="animeImage"/>
                         </div>
                     )
+
                 })}
-            </div>
+
         </>
     )
 }
