@@ -20,10 +20,10 @@ const AnimeCard = ({animes, onDescriptionToggle, selectedIndex}) => {
                             <p>{anime.rating}</p>
                             <p>{anime.startDate}</p>
                             <div className="toggleDescription" onClick={() => toggleDescription(index)}>Description</div>
-                            {selectedIndex === index && <p className="aznimeDescription">{anime.description}</p>}                            <img src={anime.imageUrl} className="animeImage"/>
+                            {selectedIndex === index && <p className="aznimeDescription">{anime.description}</p>}
+                            <img src={anime.imageUrl} className="animeImage"/>
                         </div>
                     )
-
                 })}
 
         </>
