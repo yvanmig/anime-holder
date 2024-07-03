@@ -1,9 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {createRoot} from "react-dom/client";
-import AnimeCard from './AnimeCard';
 
 const baseUrl = "https://kitsu.io/api/edge/anime"
-
 
 document.addEventListener('DOMContentLoaded', () => {
     init()
@@ -23,22 +21,21 @@ export default function SearchBar() {
         const delayDebounceFn = setTimeout(() => {
             const url = new URL(baseUrl);
             const params = new URLSearchParams(url.search);
-            params.append('filter[text]', searchInput);
-            url.search = params.toString();
-            initSearchRequest(url.toString());
-            // Send Axios request here
+            if(searchInput !== "") {
+                params.append('filter[text]', searchInput);
+                url.search = params.toString();
+                initSearchRequest(url.toString());
+
+            } else {
+                setSearchResults([])
+            }
+
         }, 400)
 
         return () => clearTimeout(delayDebounceFn)
     }, [searchInput])
 
-    //TODO Create a component that share this function with all components that require it
-    function createUrl(endpoint) {
-        return baseUrl.concat('', endpoint)
-    }
-
-    //TODO Trigger this only when user inputs text. Currently it triggers on initial render
-    async function initSearchRequest(endpoint) {
+     async function initSearchRequest(endpoint) {
         const response = await fetch(endpoint);
         const data = await response.json();
 
