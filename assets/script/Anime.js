@@ -61,6 +61,7 @@ export default function Anime() {
             const rating = Math.round((anime.attributes.averageRating / 10) * 100) / 100
             const startDate = anime.attributes.startDate.substring(0,4)
             const isOngoing = !anime.attributes.endDate ?? true
+            const episodeCount = anime.attributes.episodeCount ? anime.attributes.episodeCount : null
 
             return {
                 title: title,
@@ -68,7 +69,8 @@ export default function Anime() {
                 description: anime.attributes.description,
                 imageUrl: anime.attributes.posterImage.large,
                 startDate: startDate,
-                isOngoing : isOngoing
+                isOngoing : isOngoing,
+                episodeCount : episodeCount
             }
 
         });
