@@ -48,42 +48,50 @@ export default function Anime() {
         });
     }, []);
 
-
     async function initRequest(endpoint) {
-        const response = await fetch(endpoint);
-        const data = await response.json();
+        try {
+            const response = await fetch(endpoint);
 
-        setCurrentPage(extractPageNumber(endpoint))
-
-        const formattedAnimes = data.data.map(anime => {
-
-            const title = anime.attributes.titles.en || anime.attributes.titles.en_jp;
-            const rating = Math.round((anime.attributes.averageRating / 10) * 100) / 100
-            const startDate = anime.attributes.startDate.substring(0,4)
-            const isOngoing = !anime.attributes.endDate ?? true
-            const episodeCount = anime.attributes.episodeCount ? anime.attributes.episodeCount : null
-
-            return {
-                title: title,
-                rating: rating,
-                description: anime.attributes.description,
-                imageUrl: anime.attributes.posterImage.large,
-                startDate: startDate,
-                isOngoing : isOngoing,
-                episodeCount : episodeCount
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
 
-        });
-        if(data.links) {
-            setPagination({
-                first: data.links.first,
-                previous: data.links.prev,
-                next: data.links.next,
-                last: data.links.last,
-            })
+            const data = await response.json();
+
+            setCurrentPage(extractPageNumber(endpoint));
+
+            const formattedAnimes = data.data.map(anime => {
+                const title = anime.attributes.titles.en || anime.attributes.titles.en_jp;
+                const rating = Math.round((anime.attributes.averageRating / 10) * 100) / 100;
+                const startDate = anime.attributes.startDate.substring(0, 4);
+                const isOngoing = !anime.attributes.endDate ?? true;
+                const episodeCount = anime.attributes.episodeCount ? anime.attributes.episodeCount : null;
+
+                return {
+                    title: title,
+                    rating: rating,
+                    description: anime.attributes.description,
+                    imageUrl: anime.attributes.posterImage.large,
+                    startDate: startDate,
+                    isOngoing: isOngoing,
+                    episodeCount: episodeCount
+                };
+            });
+
+            if (data.links) {
+                setPagination({
+                    first: data.links.first,
+                    previous: data.links.prev,
+                    next: data.links.next,
+                    last: data.links.last,
+                });
+            }
+
+            setAnimes(formattedAnimes);
+            setIsDataFetched(true);
+        } catch (error) {
+            console.error("Failed to fetch data:", error);
         }
-        setAnimes(formattedAnimes);
-        setIsDataFetched(true);
     }
 
     function createUrl(endpoint) {

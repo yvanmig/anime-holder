@@ -35,27 +35,35 @@ export default function SearchBar() {
         return () => clearTimeout(delayDebounceFn)
     }, [searchInput])
 
-     async function initSearchRequest(endpoint) {
-        const response = await fetch(endpoint);
-        const data = await response.json();
 
-        //Kitsu API doesnt allow to filter by title, it checks all text fields including the description which may reference other animes
-        //So we must manually filter the titles of our query's results
-        const filteredAnimes = data.data.reduce((acc, anime) => {
-            const title = anime.attributes.titles.en || anime.attributes.titles.en_jp;
+    async function initSearchRequest(endpoint) {
+        try {
+            const response = await fetch(endpoint);
 
-            // Check if the title matches the search input
-            if (title.toLowerCase().includes(searchInput)) {
-                // Push the anime into the accumulator array with the determined title
-                acc.push({
-                    title: title,
-                });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
+            const data = await response.json();
+            //Kitsu API doesnt allow to filter by title, it checks all text fields including the description which may reference other animes
+            //So we must manually filter the titles of our query's results
+            const filteredAnimes = data.data.reduce((acc, anime) => {
+                const title = anime.attributes.titles.en || anime.attributes.titles.en_jp;
 
-            return acc;
-        }, []);
+                // Check if the title matches the search input
+                if (title.toLowerCase().includes(searchInput)) {
+                    // Push the anime into the accumulator array with the determined title
+                    acc.push({
+                        title: title,
+                    });
+                }
 
-        setSearchResults(filteredAnimes);
+                return acc;
+            }, []);
+
+            setSearchResults(filteredAnimes);
+        } catch (error) {
+            console.error("Failed to fetch data:", error);
+        }
     }
 
     return (
