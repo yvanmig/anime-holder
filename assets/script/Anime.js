@@ -17,10 +17,20 @@ const init = () => {
 
 export default function Anime() {
     const [animes, setAnimes] = useState([]);
+    const [randomAnime, setRandomAnime] = useState({});
     const [isDataFetched, setIsDataFetched] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [pagination, setPagination] = useState({first : null, previous : null, next : null, last : null})
+
+    useEffect(() => {
+        const button = document.getElementById('randomAnime');
+        button.addEventListener('click', async () => {
+            const endpoint = "anime";
+            const fullUrl = createUrl(endpoint)
+            await initRandomRequest(fullUrl);
+        });
+    }, []);
 
     useEffect(() => {
         const button = document.getElementById('topAnimes');
@@ -30,6 +40,7 @@ export default function Anime() {
             await initRequest(fullUrl);
         });
     }, []);
+
     useEffect(() => {
         const button = document.getElementById('trendingAnimes');
         button.addEventListener('click', async () => {
@@ -48,6 +59,37 @@ export default function Anime() {
         });
     }, []);
 
+     async function initRandomRequest(endpoint) {
+         try {
+             const response = await fetch(endpoint);
+
+             if (!response.ok) {
+                 throw new Error(`HTTP error! status: ${response.status}`);
+             }
+
+             let data = await response.json();
+             const animecount = data.meta.count;
+
+             //TODO Turn 10 into a variable that can adapt to a different pagination setting
+             const randomPageNumber = Math.random() * (animecount/10 - 1) + 1;
+
+             const url = new URL(endpoint);
+             const params = new URLSearchParams(url.search);
+             params.append('page[offset]', randomPageNumber.toString());
+             url.search = params.toString();
+
+             const randomPage = await fetch(url.toString());
+             data = await randomPage.json();
+             const randomAnimeResult = data.data[Math.floor(Math.random() * (9))];
+             const anime = createThumbAnimeData(randomAnimeResult)
+
+             setRandomAnime(anime)
+
+         } catch (error) {
+             console.error("Failed to fetch data:", error);
+         }
+     }
+
     async function initRequest(endpoint) {
         try {
             const response = await fetch(endpoint);
@@ -57,26 +99,7 @@ export default function Anime() {
             }
 
             const data = await response.json();
-
-            setCurrentPage(extractPageNumber(endpoint));
-
-            const formattedAnimes = data.data.map(anime => {
-                const title = anime.attributes.titles.en || anime.attributes.titles.en_jp;
-                const rating = Math.round((anime.attributes.averageRating / 10) * 100) / 100;
-                const startDate = anime.attributes.startDate.substring(0, 4);
-                const isOngoing = !anime.attributes.endDate ?? true;
-                const episodeCount = anime.attributes.episodeCount ? anime.attributes.episodeCount : null;
-
-                return {
-                    title: title,
-                    rating: rating,
-                    description: anime.attributes.description,
-                    imageUrl: anime.attributes.posterImage.large,
-                    startDate: startDate,
-                    isOngoing: isOngoing,
-                    episodeCount: episodeCount
-                };
-            });
+            const formattedAnimes = data.data.map(createThumbAnimeData);
 
             if (data.links) {
                 setPagination({
@@ -87,11 +110,31 @@ export default function Anime() {
                 });
             }
 
+            setCurrentPage(extractPageNumber(endpoint));
             setAnimes(formattedAnimes);
             setIsDataFetched(true);
         } catch (error) {
             console.error("Failed to fetch data:", error);
         }
+    }
+
+    function createThumbAnimeData(rawAnime) {
+        const title = rawAnime.attributes.titles.en || rawAnime.attributes.titles.en_jp;
+        const rating = Math.round((rawAnime.attributes.averageRating / 10) * 100) / 100;
+        const startDate = rawAnime.attributes.startDate.substring(0, 4);
+        const isOngoing = !rawAnime.attributes.endDate ?? true;
+        const episodeCount = rawAnime.attributes.episodeCount ? rawAnime.attributes.episodeCount : null;
+        const anime = {
+            title: title,
+            rating: rating,
+            description: rawAnime.attributes.description,
+            imageUrl: rawAnime.attributes.posterImage.large,
+            startDate: startDate,
+            isOngoing: isOngoing,
+            episodeCount: episodeCount
+        }
+
+        return anime
     }
 
     function createUrl(endpoint) {
@@ -110,6 +153,14 @@ export default function Anime() {
     return (
         <>
             <div id="animeContainer">
+                <div className="animeCardContainer">
+                    <p>{randomAnime.title}</p>
+                    <p>{randomAnime.rating}</p>
+                    <p>{randomAnime.startDate} {randomAnime.isOngoing && <span>- Currently airing </span>}</p>
+                    {randomAnime.episodeCount && <p> {randomAnime.episodeCount} episodes </p>}
+                    <img src={randomAnime.imageUrl} className="animeImage"/>
+                </div>
+
                 <AnimeCard animes={animes} selectedIndex={selectedIndex} onDescriptionToggle={handleDescriptionToggle}/>
             </div>
             {isDataFetched && (
@@ -117,10 +168,12 @@ export default function Anime() {
                     <div id="pagination">
 
                         {pagination.first && (
-                            <button className={"paginationButton"} onClick={() => initRequest(pagination.first)}>First</button>
+                            <button className={"paginationButton"}
+                                    onClick={() => initRequest(pagination.first)}>First</button>
                         )}
                         {pagination.previous && (
-                            <button className={"paginationButton"} onClick={() => initRequest(pagination.previous, "previous")}> {currentPage - 1} </button>
+                            <button className={"paginationButton"}
+                                    onClick={() => initRequest(pagination.previous, "previous")}> {currentPage - 1} </button>
                         )}
                         <button className={"paginationButton currentPageButton"}> {currentPage} </button>
                         {pagination.next && (
