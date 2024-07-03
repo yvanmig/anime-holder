@@ -55,13 +55,25 @@ export default function Anime() {
 
         setCurrentPage(extractPageNumber(endpoint))
 
-        const formattedAnimes = data.data.map(anime => ({
-            title: anime.attributes.titles.en || anime.attributes.titles.en_jp,
-            rating: Math.round((anime.attributes.averageRating / 10) * 100) / 100,
-            description: anime.attributes.description,
-            imageUrl: anime.attributes.posterImage.large,
-            startDate: anime.attributes.startDate
-        }));
+        const formattedAnimes = data.data.map(anime => {
+
+            const title = anime.attributes.titles.en || anime.attributes.titles.en_jp;
+            const rating = Math.round((anime.attributes.averageRating / 10) * 100) / 100
+            const startDate = anime.attributes.startDate.substring(0,4)
+            const isOngoing = !anime.attributes.endDate ?? true
+            const episodeCount = anime.attributes.episodeCount ? anime.attributes.episodeCount : null
+
+            return {
+                title: title,
+                rating: rating,
+                description: anime.attributes.description,
+                imageUrl: anime.attributes.posterImage.large,
+                startDate: startDate,
+                isOngoing : isOngoing,
+                episodeCount : episodeCount
+            }
+
+        });
         if(data.links) {
             setPagination({
                 first: data.links.first,
